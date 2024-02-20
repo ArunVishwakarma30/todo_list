@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
         createTaskProvider.initialiseDB();
         createTaskProvider.updateListView();
         return Scaffold(
-          appBar: createTaskProvider.taskList.isNotEmpty
+          appBar: createTaskProvider.isTaskCreated
               ? AppBar(
                   backgroundColor: Colors.transparent,
                   flexibleSpace: Container(
@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
           body: Container(
             decoration: BoxDecoration(gradient: backgroundColor()),
             padding: const EdgeInsets.all(15),
-            child: createTaskProvider.taskList.isNotEmpty && createTaskProvider.isTaskCreated
+            child: createTaskProvider.isTaskCreated
                 ? Column(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.start,
