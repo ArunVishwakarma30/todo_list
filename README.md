@@ -14,18 +14,19 @@ This is a simple to-do list app built with Flutter.
 
 To build and run this app locally, follow these steps:
 
-1. Clone the repository to your local machine:
+1. Clone the repository to your local machine write below commands to terminal:
 
-git clone https://github.com/your_username/flutter-todo-list.git
+    git clone https://github.com/ArunVishwakarma30/todo_list
 
 2. Navigate to the project directory:
-cd flutter-todo-list
+
+    cd flutter-todo-list
 
 3. Install dependencies:
-flutter pub get
+    
+    flutter pub get
 
-4. Running the App
-Use a compatible device or emulator to run the app:
-flutter run
+4. Running the App : Use a compatible device or emulator to run the app:
+    flutter run
 
 This will launch the app on your device or emulator.
