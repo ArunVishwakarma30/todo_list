@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_list/views/common/snack_bar.dart';
 import 'package:todo_list/views/home_page.dart';
 
@@ -9,13 +10,24 @@ import '../model/task_model.dart';
 import '../service/database_helper.dart';
 
 class CreateTaskProvider extends ChangeNotifier {
-  String _selectedPriority = 'High';
+  bool isTaskCreated = false;
+  String? _selectedPriority;
   DateTime? _selectedDueDate;
   late DatabaseHelper databaseHelper;
 
   List<Task> taskList = [];
   int? _updateIndex;
   int? count;
+
+  setPreference()async{
+    var prefs = await SharedPreferences.getInstance();
+    prefs.setBool('taskCreated', true);
+  }
+
+  getPreference()async{
+    var prefs = await SharedPreferences.getInstance();
+    isTaskCreated =  prefs.getBool('taskCreated') ?? false;
+  }
 
   // initialise database
   initialiseDB() {
@@ -29,7 +41,7 @@ class CreateTaskProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  String get selectedPriority => _selectedPriority;
+  String? get selectedPriority => _selectedPriority;
 
   DateTime? get selectedDueDate => _selectedDueDate;
 
@@ -62,6 +74,7 @@ class CreateTaskProvider extends ChangeNotifier {
     await databaseHelper.updateTask(task);
     ShowSnackbar(
         title: "Successful", message: "Task Updated", icon: Icons.done_outline);
+    print("in the update method ${task.isCompleted}");
     updateListView(refresh: true);
   }
 

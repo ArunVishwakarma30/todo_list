@@ -92,9 +92,8 @@ class _CreateTaskState extends State<CreateTask> {
                       DropdownButton(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         borderRadius: BorderRadius.circular(10.0),
-                        value: args == "Update" || createTaskProvider.selectedPriority != 'High'
-                            ? createTaskProvider.selectedPriority
-                            : null,
+                        value: createTaskProvider.selectedPriority ??
+                            createTaskProvider.selectedPriority,
                         hint: const Text("Select Priority"),
                         style: appStyle(16, Colors.black, FontWeight.w500),
                         icon: const Icon(Icons.arrow_drop_down),
@@ -201,6 +200,7 @@ class _CreateTaskState extends State<CreateTask> {
                                           createTaskProvider.selectedDueDate
                                               .toString(),
                                           priority);
+                                      createTaskProvider.setPreference();
                                       createTaskProvider.insert(model);
                                     }
                                   },

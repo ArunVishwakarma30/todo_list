@@ -6,7 +6,6 @@ import 'package:todo_list/controller/create_task_provider.dart';
 import 'package:todo_list/views/common/custom_text_style.dart';
 import 'package:todo_list/views/common/fliter_container.dart';
 
-import 'common/custom_dialog.dart';
 import 'common/task_card.dart';
 import 'create_task_page.dart';
 
@@ -29,6 +28,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Consumer<CreateTaskProvider>(
       builder: (context, createTaskProvider, child) {
+        createTaskProvider.getPreference();
         createTaskProvider.initialiseDB();
         createTaskProvider.updateListView();
         return Scaffold(
@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
           body: Container(
             decoration: BoxDecoration(gradient: backgroundColor()),
             padding: const EdgeInsets.all(15),
-            child: createTaskProvider.taskList.isNotEmpty
+            child: createTaskProvider.taskList.isNotEmpty && createTaskProvider.isTaskCreated
                 ? Column(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -117,25 +117,25 @@ class _HomePageState extends State<HomePage> {
                                     refresh: false);
                                 Get.to(
                                   () => CreateTask(
-                                      title: taskAtCurrentIndex.title,
-                                      description:
-                                          taskAtCurrentIndex.description,
-                                      id: taskAtCurrentIndex.id),
+                                    title: taskAtCurrentIndex.title,
+                                    description: taskAtCurrentIndex.description,
+                                    id: taskAtCurrentIndex.id,
+                                  ),
                                   arguments: "Update",
                                 );
                               },
                               onOptionSelected: (String value) {
-                                print(value);
                                 if (value == "delete") {
-                                  print(value);
                                   createTaskProvider
                                       .deleteTask(taskAtCurrentIndex);
-                                } else {
-                                  if (taskAtCurrentIndex.isCompleted == 1) {
-                                    taskAtCurrentIndex.isCompleted = 0;
+                                } else if (value == "markAsComplete") {
+                                  // Toggle the completion status
+                                  if (taskAtCurrentIndex.isCompleted == 0) {
+                                    taskAtCurrentIndex.isCompleted = 1;
                                   } else {
                                     taskAtCurrentIndex.isCompleted = 0;
                                   }
+                                  // Update the task in the database
                                   createTaskProvider
                                       .updateTask(taskAtCurrentIndex);
                                 }
